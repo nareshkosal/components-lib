@@ -1,0 +1,48 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "workos-authkit",
+  "type": "registry:component",
+  "title": "WorkOS AuthKit Scaffold",
+  "description": "Next.js App Router routes, middleware, header, and context for WorkOS AuthKit.",
+  "dependencies": [
+    "@workos-inc/authkit-nextjs"
+  ],
+  "files": [
+    {
+      "path": "templates/workos/app/login/route.ts",
+      "content": "// @ts-nocheck\nimport { getSignInUrl } from '@workos-inc/authkit-nextjs'\n\n// Login endpoint — redirects users into AuthKit’s hosted flow.\nexport const GET = async () => {\n  const url = await getSignInUrl()\n  return Response.redirect(url)\n}",
+      "type": "registry:page",
+      "target": "app/login/route.ts"
+    },
+    {
+      "path": "templates/workos/app/callback/route.ts",
+      "content": "// @ts-nocheck\nimport { handleAuth } from '@workos-inc/authkit-nextjs'\n\n// AuthKit callback endpoint — matches WORKOS redirect URI.\nexport const GET = handleAuth()",
+      "type": "registry:page",
+      "target": "app/callback/route.ts"
+    },
+    {
+      "path": "templates/workos/app/logout/route.ts",
+      "content": "// @ts-nocheck\nimport { signOut } from '@workos-inc/authkit-nextjs'\n\n// Signs out the current user and redirects to the configured Logout URI\nexport const GET = async () => {\n  return await signOut()\n}",
+      "type": "registry:page",
+      "target": "app/logout/route.ts"
+    },
+    {
+      "path": "templates/workos/middleware.ts",
+      "content": "// @ts-nocheck\nimport { authkitMiddleware } from '@workos-inc/authkit-nextjs'\n\n// Full middleware solution; protects routes and manages the session.\nexport default authkitMiddleware()\n\n// Configure which routes should be matched by middleware-based auth.\n// Adjust as needed; leaving it out protects all resources by default.\nexport const config = {\n  matcher: ['/'],\n}",
+      "type": "registry:lib",
+      "target": "middleware.ts"
+    },
+    {
+      "path": "templates/workos/components/header.tsx",
+      "content": "// @ts-nocheck\nimport Link from 'next/link'\nimport { withAuth, getSignInUrl, signOut } from '@workos-inc/authkit-nextjs'\n\nexport default async function Header() {\n  const { user } = await withAuth()\n  const signInUrl = await getSignInUrl()\n\n  return (\n    <header className=\"flex items-center justify-between py-4 px-4 border-b\">\n      <div className=\"flex items-center gap-4\">\n        <Link href=\"/\" className=\"font-semibold\">Registry</Link>\n        <nav className=\"hidden sm:flex items-center gap-3\">\n          <Link href=\"/\" className=\"text-sm text-muted-foreground hover:text-foreground\">Home</Link>\n          <Link href=\"/settings\" className=\"text-sm text-muted-foreground hover:text-foreground\">Settings</Link>\n        </nav>\n      </div>\n      {user ? (\n        <form\n          action={async () => {\n            'use server'\n            await signOut()\n          }}\n        >\n          <button type=\"submit\" className=\"text-sm underline\">Sign out</button>\n        </form>\n      ) : (\n        <Link href={signInUrl} className=\"text-sm underline\">Sign in</Link>\n      )}\n    </header>\n  )\n}",
+      "type": "registry:component",
+      "target": "components/header.tsx"
+    },
+    {
+      "path": "templates/workos/contexts/UserContext.tsx",
+      "content": "// @ts-nocheck\nimport { AuthKitProvider } from '@workos-inc/authkit-nextjs/components'\n\nexport function UserContextProvider({ children }: { children: React.ReactNode }) {\n  return <AuthKitProvider>{children}</AuthKitProvider>\n}",
+      "type": "registry:component",
+      "target": "contexts/UserContext.tsx"
+    }
+  ]
+}

@@ -4,76 +4,45 @@
   "homepage": "https://acme.com",
   "items": [
     {
-      "name": "hello-world",
+      "name": "split-display",
       "type": "registry:component",
-      "title": "Hello World",
-      "description": "A simple hello world component",
-      "registryDependencies": ["button"],
+      "title": "Split Display",
+      "description": "Interactive WebGL video panels built with react-three-fiber.",
+      "dependencies": ["three", "@react-three/fiber", "@react-three/drei"],
       "files": [
-        {
-          "path": "registry/new-york/blocks/hello-world/hello-world.tsx",
-          "type": "registry:component"
-        }
+        { "path": "registry/new-york/blocks/split-display/split-display.tsx", "type": "registry:component" },
+        { "path": "registry/new-york/blocks/split-display/components/VideoPanel.tsx", "type": "registry:component" },
+        { "path": "registry/new-york/blocks/split-display/components/VideoPanelGroup.tsx", "type": "registry:component" },
+        { "path": "registry/new-york/blocks/split-display/components/MouseRotateGroup.tsx", "type": "registry:component" },
+        { "path": "registry/new-york/blocks/split-display/components/SceneBackground.tsx", "type": "registry:component" },
+        { "path": "registry/new-york/blocks/split-display/hooks/use-video-element.ts", "type": "registry:hook" },
+        { "path": "registry/new-york/blocks/split-display/constants/panels.ts", "type": "registry:lib" },
+        { "path": "registry/new-york/blocks/split-display/utils/get-panels-bbox.ts", "type": "registry:lib" },
+        { "path": "registry/new-york/blocks/split-display/materials/VideoCropMaterial.ts", "type": "registry:lib" }
       ]
     },
     {
-      "name": "example-form",
+      "name": "workos-authkit",
       "type": "registry:component",
-      "title": "Example Form",
-      "description": "A contact form with Zod validation.",
-      "dependencies": ["zod"],
-      "registryDependencies": ["button", "input", "label", "textarea", "card"],
+      "title": "WorkOS AuthKit Scaffold",
+      "description": "Next.js App Router routes, middleware, header, and context for WorkOS AuthKit.",
+      "dependencies": ["@workos-inc/authkit-nextjs"],
       "files": [
-        {
-          "path": "registry/new-york/blocks/example-form/example-form.tsx",
-          "type": "registry:component"
-        }
+        { "path": "templates/workos/app/login/route.ts", "type": "registry:page", "target": "app/login/route.ts" },
+        { "path": "templates/workos/app/callback/route.ts", "type": "registry:page", "target": "app/callback/route.ts" },
+        { "path": "templates/workos/app/logout/route.ts", "type": "registry:page", "target": "app/logout/route.ts" },
+        { "path": "templates/workos/middleware.ts", "type": "registry:lib", "target": "middleware.ts" },
+        { "path": "templates/workos/components/header.tsx", "type": "registry:component", "target": "components/header.tsx" },
+        { "path": "templates/workos/contexts/UserContext.tsx", "type": "registry:component", "target": "contexts/UserContext.tsx" }
       ]
     },
     {
-      "name": "complex-component",
-      "type": "registry:component",
-      "title": "Complex Component",
-      "description": "A complex component showing hooks, libs and components.",
-      "registryDependencies": ["card"],
+      "name": "workos-init-script",
+      "type": "registry:lib",
+      "title": "WorkOS Init Script",
+      "description": "CLI script to scaffold WorkOS AuthKit files.",
       "files": [
-        {
-          "path": "registry/new-york/blocks/complex-component/page.tsx",
-          "type": "registry:page",
-          "target": "app/pokemon/page.tsx"
-        },
-        {
-          "path": "registry/new-york/blocks/complex-component/components/pokemon-card.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/complex-component/components/pokemon-image.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/complex-component/lib/pokemon.ts",
-          "type": "registry:lib"
-        },
-        {
-          "path": "registry/new-york/blocks/complex-component/hooks/use-pokemon.ts",
-          "type": "registry:hook"
-        }
-      ]
-    },
-    {
-      "name": "example-with-css",
-      "type": "registry:component",
-      "title": "Example with CSS",
-      "description": "A login form with a CSS file.",
-      "files": [
-        {
-          "path": "registry/new-york/blocks/example-with-css/example-card.tsx",
-          "type": "registry:component"
-        },
-        {
-          "path": "registry/new-york/blocks/example-with-css/example-card.css",
-          "type": "registry:component"
-        }
+        { "path": "scripts/workos-init.mjs", "type": "registry:lib", "target": "scripts/workos-init.mjs" }
       ]
     }
   ]
