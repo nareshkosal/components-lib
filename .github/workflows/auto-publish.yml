@@ -79,6 +79,11 @@ jobs:
         with:
           fetch-depth: 0
       
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -86,21 +91,13 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
       
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-      
       - name: Configure Git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
       
       - name: Build packages
-        run: pnpm build:npm
+        run: node scripts/build-npm-final.js
       
       - name: Publish packages
         env:
