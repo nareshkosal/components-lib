@@ -1,16 +1,28 @@
 {
-  "name": "@kosal/split-display",
-  "version": "1.0.0",
+  "name": "@nareshkosal/split-display",
+  "version": "1.0.7",
   "description": "Interactive WebGL video panels built with react-three-fiber.",
   "main": "index.json",
   "files": [
-    "index.json"
+    "index.json",
+    "postinstall.js",
+    "README.md",
+    "registry/new-york/blocks/split-display/split-display.tsx",
+    "registry/new-york/blocks/split-display/components/VideoPanel.tsx",
+    "registry/new-york/blocks/split-display/components/VideoPanelGroup.tsx",
+    "registry/new-york/blocks/split-display/components/MouseRotateGroup.tsx",
+    "registry/new-york/blocks/split-display/components/SceneBackground.tsx",
+    "registry/new-york/blocks/split-display/hooks/use-video-element.ts",
+    "registry/new-york/blocks/split-display/constants/panels.ts",
+    "registry/new-york/blocks/split-display/utils/get-panels-bbox.ts",
+    "registry/new-york/blocks/split-display/materials/VideoCropMaterial.ts"
   ],
   "keywords": [
     "shadcn",
     "component",
     "react",
-    "split-display"
+    "split-display",
+    "kosal"
   ],
   "author": "kosal",
   "license": "MIT",
@@ -20,6 +32,17 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "postinstall": "node postinstall.js"
+  },
+  "bin": {
+    "split-display": "./cli.js"
+  },
+  "dependencies": {
+    "three": "^0.158.0",
+    "@react-three/fiber": "^8.15.12",
+    "@react-three/drei": "^9.92.7"
   },
   "shadcn": {
     "name": "split-display",

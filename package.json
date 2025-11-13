@@ -1,18 +1,21 @@
 {
-  "name": "@kosal/scad-components",
+  "name": "@nareshkosal/install-split-display",
   "version": "1.0.0",
-  "description": "A collection of reusable React components built with shadcn/ui registry system",
+  "description": "One-command installer for @nareshkosal/split-display",
+  "main": "install-split-display.js",
+  "bin": {
+    "install-split-display": "./install-split-display.js"
+  },
+  "files": [
+    "install-split-display.js"
+  ],
   "keywords": [
-    "react",
-    "components",
-    "ui",
     "shadcn",
-    "registry",
+    "component",
+    "react",
     "kosal",
-    "threejs",
-    "webgl",
-    "authentication",
-    "workos"
+    "installer",
+    "split-display"
   ],
   "author": "kosal",
   "license": "MIT",
@@ -20,81 +23,7 @@
     "type": "git",
     "url": "https://github.com/nareshkosal/components-lib.git"
   },
-  "homepage": "https://github.com/nareshkosal/components-lib#readme",
-  "bugs": {
-    "url": "https://github.com/nareshkosal/components-lib/issues"
-  },
   "publishConfig": {
     "access": "public"
-  },
-  "files": [
-    "public/r/*.json",
-    "registry/**/*.tsx",
-    "registry/**/*.ts",
-    "registry/**/*.css",
-    "templates/**/*",
-    "scripts/**/*",
-    "README.md",
-    "LICENSE"
-  ],
-  "main": "public/r/registry.json",
-  "exports": {
-    "./registry": "./public/r/registry.json",
-    "./split-display": "./public/r/split-display.json",
-    "./workos-authkit": "./public/r/workos-authkit.json",
-    "./workos-init-script": "./public/r/workos-init-script.json"
-  },
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "registry:build": "shadcn build",
-    "build:npm": "node scripts/build-npm.js",
-    "test:packages": "node scripts/test-packages.js",
-    "prepublishOnly": "pnpm registry:build && pnpm build:npm && pnpm test:packages",
-    "postpublish": "echo '🎉 Components published successfully!'",
-    "publish:all": "cd dist && npm publish && for dir in */; do cd \"$dir\" && npm publish && cd ..; done"
-  },
-  "bin": {
-    "workos-init": "scripts/workos-init.mjs",
-    "kosal-workos-init": "scripts/workos-init.mjs",
-    "kosal-components": "scripts/kosal-cli.js",
-    "kosal": "scripts/kosal-cli.js"
-  },
-  "dependencies": {
-    "@radix-ui/react-label": "^2.1.7",
-    "@radix-ui/react-slot": "^1.2.3",
-    "@react-three/drei": "^10.7.6",
-    "@react-three/fiber": "^9.4.0",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide-react": "^0.487.0",
-    "next": "15.5.2",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "shadcn": "^3.0.0",
-    "tailwind-merge": "^3.3.1",
-    "three": "^0.181.1",
-    "tw-animate-css": "^1.3.6",
-    "zod": "^3.25.76"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
-    "@tailwindcss/postcss": "^4.1.11",
-    "@types/node": "^20.19.9",
-    "@types/react": "19.1.2",
-    "@types/react-dom": "19.1.2",
-    "@types/three": "^0.181.0",
-    "eslint": "^9.32.0",
-    "eslint-config-next": "15.3.1",
-    "tailwindcss": "^4.1.11",
-    "typescript": "^5.9.2"
-  },
-  "pnpm": {
-    "overrides": {
-      "@types/react": "19.1.2",
-      "@types/react-dom": "19.1.2"
-    }
   }
 }

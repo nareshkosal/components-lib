@@ -46,25 +46,15 @@ function installComponent(componentName) {
   console.log(`\n📥 Installing @kosal/${componentName}...\n`);
 
   try {
-    // Use npm to install the specific component package
-    execSync(`npm install @kosal/${componentName}`, { stdio: 'inherit' });
-    
+    // Use shadcn to install the component from the registry
+    execSync(`npx shadcn@latest add @kosal/${componentName}`, { stdio: 'inherit' });
     console.log(`\n✅ Successfully installed @kosal/${componentName}`);
-    console.log(`\n💡 To use with shadcn/ui, run:`);
-    console.log(`   npx shadcn@latest add @kosal/${componentName}`);
     
   } catch (error) {
     console.error(`❌ Installation failed:`, error.message);
-    
-    // Fallback to direct shadcn installation
-    console.log(`\n🔄 Trying direct shadcn installation...`);
-    try {
-      execSync(`npx shadcn@latest add @kosal/${componentName}`, { stdio: 'inherit' });
-      console.log(`✅ Successfully installed via shadcn`);
-    } catch (fallbackError) {
-      console.error(`❌ Fallback installation also failed:`, fallbackError.message);
-      process.exit(1);
-    }
+    console.log(`\n💡 Make sure you have shadcn/ui initialized in your project.`);
+    console.log(`   Run: npx shadcn@latest init`);
+    process.exit(1);
   }
 }
 

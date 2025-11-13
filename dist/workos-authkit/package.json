@@ -1,16 +1,25 @@
 {
-  "name": "@kosal/workos-authkit",
-  "version": "1.0.0",
+  "name": "@nareshkosal/workos-authkit",
+  "version": "1.0.7",
   "description": "Next.js App Router routes, middleware, header, and context for WorkOS AuthKit.",
   "main": "index.json",
   "files": [
-    "index.json"
+    "index.json",
+    "postinstall.js",
+    "README.md",
+    "templates/workos/app/login/route.ts",
+    "templates/workos/app/callback/route.ts",
+    "templates/workos/app/logout/route.ts",
+    "templates/workos/middleware.ts",
+    "templates/workos/components/header.tsx",
+    "templates/workos/contexts/UserContext.tsx"
   ],
   "keywords": [
     "shadcn",
     "component",
     "react",
-    "workos-authkit"
+    "workos-authkit",
+    "kosal"
   ],
   "author": "kosal",
   "license": "MIT",
@@ -20,6 +29,15 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "scripts": {
+    "postinstall": "node postinstall.js"
+  },
+  "bin": {
+    "workos-authkit": "./cli.js"
+  },
+  "dependencies": {
+    "@workos-inc/authkit-nextjs": "^2.10.0"
   },
   "shadcn": {
     "name": "workos-authkit",

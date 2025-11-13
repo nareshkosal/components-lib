@@ -1,11 +1,11 @@
 {
-  "name": "@kosal/scad-components",
-  "version": "1.0.0",
+  "name": "@nareshkosal/scad-components",
+  "version": "1.0.6",
   "description": "A collection of reusable React components built with shadcn/ui registry system",
   "main": "registry.json",
   "files": [
     "registry.json",
-    "cli.js"
+    "kosal-cli.js"
   ],
   "keywords": [
     "shadcn",
@@ -24,7 +24,7 @@
     "access": "public"
   },
   "bin": {
-    "kosal-components": "cli.js",
-    "kosal": "cli.js"
+    "kosal-components": "kosal-cli.js",
+    "kosal": "kosal-cli.js"
   }
 }

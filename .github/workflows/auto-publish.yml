@@ -1,0 +1,172 @@
+name: Auto Publish NPM Packages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  analyze-commits:
+    runs-on: ubuntu-latest
+    outputs:
+      should-publish: ${{ steps.analyze.outputs.should-publish }}
+      version-bump: ${{ steps.analyze.outputs.version-bump }}
+      packages-affected: ${{ steps.analyze.outputs.packages-affected }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Analyze commit messages
+        id: analyze
+        run: |
+          # Get the latest commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "Commit message: $COMMIT_MSG"
+          
+          # Check for version bump keywords
+          VERSION_BUMP="none"
+          SHOULD_PUBLISH="false"
+          PACKAGES_AFFECTED="all"
+          
+          # Check for major version bump
+          if echo "$COMMIT_MSG" | grep -qE "(BREAKING CHANGE|major:|!)"; then
+            VERSION_BUMP="major"
+            SHOULD_PUBLISH="true"
+          # Check for minor version bump  
+          elif echo "$COMMIT_MSG" | grep -qE "(feat:|minor:)"; then
+            VERSION_BUMP="minor"
+            SHOULD_PUBLISH="true"
+          # Check for patch version bump
+          elif echo "$COMMIT_MSG" | grep -qE "(fix:|patch:|docs:|style:|refactor:|test:|chore:)"; then
+            VERSION_BUMP="patch"
+            SHOULD_PUBLISH="true"
+          fi
+          
+          # Check for specific package mentions
+          if echo "$COMMIT_MSG" | grep -q "split-display"; then
+            PACKAGES_AFFECTED="split-display"
+          elif echo "$COMMIT_MSG" | grep -q "workos-authkit"; then
+            PACKAGES_AFFECTED="workos-authkit"
+          fi
+          
+          # Check for publish skip
+          if echo "$COMMIT_MSG" | grep -q "(no-publish)"; then
+            SHOULD_PUBLISH="false"
+          fi
+          
+          echo "should-publish=$SHOULD_PUBLISH" >> $GITHUB_OUTPUT
+          echo "version-bump=$VERSION_BUMP" >> $GITHUB_OUTPUT
+          echo "packages-affected=$PACKAGES_AFFECTED" >> $GITHUB_OUTPUT
+          
+          echo "📊 Analysis Results:"
+          echo "  Should Publish: $SHOULD_PUBLISH"
+          echo "  Version Bump: $VERSION_BUMP"
+          echo "  Packages Affected: $PACKAGES_AFFECTED"
+
+  publish-packages:
+    needs: analyze-commits
+    if: needs.analyze-commits.outputs.should-publish == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      
+      - name: Build packages
+        run: pnpm build:npm
+      
+      - name: Publish packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          VERSION_BUMP: ${{ needs.analyze-commits.outputs.version-bump }}
+          PACKAGES_AFFECTED: ${{ needs.analyze-commits.outputs.packages-affected }}
+        run: |
+          echo "📦 Publishing packages with $VERSION_BUMP version bump..."
+          
+          # Navigate to dist directory
+          cd dist
+          
+          # Publish based on affected packages
+          if [ "$PACKAGES_AFFECTED" = "all" ]; then
+            echo "Publishing all packages..."
+            
+            # Publish main package
+            cd scad-components
+            npm version $VERSION_BUMP
+            npm publish
+            cd ..
+            
+            # Publish individual components
+            for package in split-display workos-authkit workos-init-script; do
+              if [ -d "$package" ]; then
+                echo "Publishing @nareshkosal/$package..."
+                cd $package
+                npm version $VERSION_BUMP
+                npm publish
+                cd ..
+              fi
+            done
+            
+          else
+            echo "Publishing specific package: $PACKAGES_AFFECTED"
+            cd $PACKAGES_AFFECTED
+            npm version $VERSION_BUMP
+            npm publish
+          fi
+          
+          echo "✅ Packages published successfully!"
+      
+      - name: Create GitHub Release
+        if: success()
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release v${{ github.run_number }}
+          body: |
+            📦 Automated release
+            
+            Version bump: ${{ needs.analyze-commits.outputs.version-bump }}
+            Packages affected: ${{ needs.analyze-commits.outputs.packages-affected }}
+            
+            Commit: ${{ github.sha }}
+          draft: false
+          prerelease: false
+
+  skip-publish:
+    needs: analyze-commits
+    if: needs.analyze-commits.outputs.should-publish == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip publish notification
+        run: |
+          echo "📋 Skipping publish based on commit message analysis"
+          echo "Reason: No version bump keywords found or (no-publish) flag detected"
