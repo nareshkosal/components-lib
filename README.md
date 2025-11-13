@@ -1,39 +1,70 @@
-# Components Lib - SCAD CN Registry
+# Kosal Components - NPM Registry
 
-A collection of reusable React components built with [shadcn/ui](https://ui.shadcn.com) registry system.
+A collection of reusable React components built with [shadcn/ui](https://ui.shadcn.com) registry system, published to NPM under the `@kosal` scope.
 
 ## 🎨 Available Components
 
 ### Split Display
 Interactive WebGL video panels built with react-three-fiber.
-- **Install**: `npx shadcn@latest add https://nareshkosal.github.io/components-lib/r/split-display.json`
+- **Install**: `npx shadcn@latest add @kosal/split-display`
+- **NPM**: `npm install @kosal/split-display`
 - **Dependencies**: `three`, `@react-three/fiber`, `@react-three/drei`
 - **Features**: 3D video panels, mouse interaction, custom shaders
 
 ### WorkOS AuthKit
 Next.js authentication scaffolding with WorkOS AuthKit integration.
-- **Install**: `npx shadcn@latest add https://nareshkosal.github.io/components-lib/r/workos-authkit.json`
+- **Install**: `npx shadcn@latest add @kosal/workos-authkit`
+- **NPM**: `npm install @kosal/workos-authkit`
 - **Dependencies**: `@workos-inc/authkit-nextjs`
 - **Features**: Authentication routes, middleware, user context
 
 ### WorkOS Init Script
 CLI tool for scaffolding WorkOS AuthKit files.
-- **Install**: `npx shadcn@latest add https://nareshkosal.github.io/components-lib/r/workos-init-script.json`
+- **Install**: `npx shadcn@latest add @kosal/workos-init-script`
+- **NPM**: `npm install @kosal/workos-init-script`
 
-## 🚀 Quick Start
+## 🚀 Installation Methods
 
-### For Users
-Install any component using the shadcn CLI:
-
+### Method 1: shadcn CLI (Recommended)
 ```bash
 # Install Split Display component
-npx shadcn@latest add https://nareshkosal.github.io/components-lib/r/split-display.json
+npx shadcn@latest add @kosal/split-display
 
 # Install WorkOS AuthKit
-npx shadcn@latest add https://nareshkosal.github.io/components-lib/r/workos-authkit.json
+npx shadcn@latest add @kosal/workos-authkit
 ```
 
-### For Developers
+### Method 2: NPM Install
+```bash
+# Install individual components
+npm install @kosal/split-display
+npm install @kosal/workos-authkit
+
+# Or install all components
+npm install @kosal/scad-components
+```
+
+### Method 3: CLI Tool
+```bash
+# Install using the CLI tool
+npx @kosal/scad-components split-display
+npx @kosal/scad-components workos-authkit
+npx @kosal/scad-components list  # See available components
+```
+
+## 📦 Package Structure
+
+```
+@kosal/
+├── scad-components/          # Main package with all components
+├── split-display/            # Individual Split Display component
+├── workos-authkit/           # Individual WorkOS AuthKit component
+└── workos-init-script/       # Individual WorkOS CLI tool
+```
+
+## 🔧 Development
+
+### For Contributors
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/nareshkosal/components-lib.git
@@ -45,81 +76,56 @@ npx shadcn@latest add https://nareshkosal.github.io/components-lib/r/workos-auth
    pnpm install
    ```
 
-3. **Run development server**:
-   ```bash
-   pnpm dev
-   ```
-
-4. **Build registry**:
+3. **Build components**:
    ```bash
    pnpm registry:build
    ```
 
-## 📁 Project Structure
+4. **Build NPM packages**:
+   ```bash
+   pnpm build:npm
+   ```
+
+5. **Test packages**:
+   ```bash
+   pnpm test:packages
+   ```
+
+6. **Publish to NPM**:
+   ```bash
+   pnpm publish:all
+   ```
+
+## 📁 Repository Structure
 
 ```
 components-lib/
-├── app/                    # Next.js app directory
-├── components/             # Shared components
-├── lib/                    # Utility functions
-├── public/r/               # Built registry files (auto-generated)
-├── registry/               # Component source files
-│   └── new-york/
-│       ├── blocks/         # Block components
-│       └── ui/             # UI components
-├── scripts/                # Build scripts
-├── templates/              # Template files
-└── .github/workflows/      # CI/CD workflows
+├── app/                      # Next.js app directory
+├── components/               # Shared components
+├── lib/                      # Utility functions
+├── public/r/                 # Built registry files
+├── registry/                 # Component source files
+├── scripts/                  # Build and CLI scripts
+├── dist/                     # NPM package build output
+└── .github/workflows/        # CI/CD workflows
 ```
 
-## 🔧 Registry Development
+## 🌐 Registry URLs
 
-### Adding New Components
+Since the repository is private, GitHub Pages won't work. Instead, use these NPM-based installation methods:
 
-1. **Create component files** in `registry/new-york/blocks/your-component/`
-2. **Update `registry.json`** with your component configuration
-3. **Build the registry**:
-   ```bash
-   pnpm registry:build
-   ```
+- **Main Registry**: Install via `@kosal/scad-components`
+- **Individual Components**: Install via `@kosal/[component-name]`
+- **CLI Tool**: Use `npx @kosal/scad-components`
 
-### Component Configuration
+## 📝 Publishing Process
 
-Each component in `registry.json` should include:
-- `name`: Component identifier
-- `type`: Component type (`registry:component`, `registry:page`, etc.)
-- `title`: Display title
-- `description`: Component description
-- `dependencies`: NPM dependencies
-- `files`: Array of component files
+1. **Build Components**: `pnpm registry:build`
+2. **Build NPM Packages**: `pnpm build:npm`
+3. **Test Packages**: `pnpm test:packages`
+4. **Publish**: `pnpm publish:all`
 
-Example:
-```json
-{
-  "name": "my-component",
-  "type": "registry:component",
-  "title": "My Component",
-  "description": "A custom component",
-  "dependencies": ["lucide-react"],
-  "files": [
-    {
-      "path": "registry/new-york/blocks/my-component/my-component.tsx",
-      "type": "registry:component"
-    }
-  ]
-}
-```
-
-## 🌐 Deployment
-
-This repository is automatically deployed to GitHub Pages using GitHub Actions. The registry files are accessible at:
-
-- **Main registry**: `https://nareshkosal.github.io/components-lib/r/registry.json`
-- **Individual components**: `https://nareshkosal.github.io/components-lib/r/[component-name].json`
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+See [NPM_PUBLISHING_GUIDE.md](NPM_PUBLISHING_GUIDE.md) for detailed publishing instructions.
 
 ## 🤝 Contributing
 
@@ -134,7 +140,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For issues and questions:
 - Open an issue on GitHub
 - Check the [shadcn/ui documentation](https://ui.shadcn.com)
+- Use the CLI tool: `npx @kosal/scad-components help`
 
 ---
 
 Built with ❤️ using [shadcn/ui](https://ui.shadcn.com)
+
+**Note**: Since your repository is private, these components are only accessible via NPM installation, not through GitHub Pages.

@@ -1,0 +1,34 @@
+{
+  "name": "@kosal/split-display",
+  "version": "1.0.0",
+  "description": "Interactive WebGL video panels built with react-three-fiber.",
+  "main": "index.json",
+  "files": [
+    "index.json"
+  ],
+  "keywords": [
+    "shadcn",
+    "component",
+    "react",
+    "split-display"
+  ],
+  "author": "kosal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nareshkosal/components-lib.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "shadcn": {
+    "name": "split-display",
+    "type": "registry:component",
+    "dependencies": [
+      "three",
+      "@react-three/fiber",
+      "@react-three/drei"
+    ],
+    "registryDependencies": []
+  }
+}

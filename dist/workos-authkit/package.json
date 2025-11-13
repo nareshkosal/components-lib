@@ -1,0 +1,32 @@
+{
+  "name": "@kosal/workos-authkit",
+  "version": "1.0.0",
+  "description": "Next.js App Router routes, middleware, header, and context for WorkOS AuthKit.",
+  "main": "index.json",
+  "files": [
+    "index.json"
+  ],
+  "keywords": [
+    "shadcn",
+    "component",
+    "react",
+    "workos-authkit"
+  ],
+  "author": "kosal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nareshkosal/components-lib.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "shadcn": {
+    "name": "workos-authkit",
+    "type": "registry:component",
+    "dependencies": [
+      "@workos-inc/authkit-nextjs"
+    ],
+    "registryDependencies": []
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@kosal/workos-init-script",
+  "version": "1.0.0",
+  "description": "CLI script to scaffold WorkOS AuthKit files.",
+  "main": "index.json",
+  "files": [
+    "index.json"
+  ],
+  "keywords": [
+    "shadcn",
+    "component",
+    "react",
+    "workos-init-script"
+  ],
+  "author": "kosal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nareshkosal/components-lib.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "shadcn": {
+    "name": "workos-init-script",
+    "type": "registry:lib",
+    "dependencies": [],
+    "registryDependencies": []
+  }
+}

@@ -1,17 +1,66 @@
 {
-  "name": "registry",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@kosal/scad-components",
+  "version": "1.0.0",
+  "description": "A collection of reusable React components built with shadcn/ui registry system",
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "shadcn",
+    "registry",
+    "kosal",
+    "threejs",
+    "webgl",
+    "authentication",
+    "workos"
+  ],
+  "author": "kosal",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nareshkosal/components-lib.git"
+  },
+  "homepage": "https://github.com/nareshkosal/components-lib#readme",
+  "bugs": {
+    "url": "https://github.com/nareshkosal/components-lib/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "public/r/*.json",
+    "registry/**/*.tsx",
+    "registry/**/*.ts",
+    "registry/**/*.css",
+    "templates/**/*",
+    "scripts/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "public/r/registry.json",
+  "exports": {
+    "./registry": "./public/r/registry.json",
+    "./split-display": "./public/r/split-display.json",
+    "./workos-authkit": "./public/r/workos-authkit.json",
+    "./workos-init-script": "./public/r/workos-init-script.json"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "registry:build": "shadcn build"
+    "registry:build": "shadcn build",
+    "build:npm": "node scripts/build-npm.js",
+    "test:packages": "node scripts/test-packages.js",
+    "prepublishOnly": "pnpm registry:build && pnpm build:npm && pnpm test:packages",
+    "postpublish": "echo '🎉 Components published successfully!'",
+    "publish:all": "cd dist && npm publish && for dir in */; do cd \"$dir\" && npm publish && cd ..; done"
   },
   "bin": {
     "workos-init": "scripts/workos-init.mjs",
-    "my-cli": "scripts/workos-init.mjs"
+    "kosal-workos-init": "scripts/workos-init.mjs",
+    "kosal-components": "scripts/kosal-cli.js",
+    "kosal": "scripts/kosal-cli.js"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.7",
